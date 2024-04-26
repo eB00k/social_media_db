@@ -1,68 +1,133 @@
-# Social Media Platform Database Schema
+### Social Media Platform Diagram
 
-### Tables
+https://drawsql.app/teams/dias-3/diagrams/social-media
 
-- Users: Store user information such as username, email, password, etc.
-- User_details: Store additional user details like first name, last name, profile picture, bio, etc. (Can be a one-to-one relationship with Users table).
-- Follows: Manage user follow relationships with fields like following_user_id, followed_user_id, and status.
-- Messages: Store messages between users with sender_id, receiver_id, content, etc.
-- Post_type: Define types of posts like 'story', 'profile', etc.
-- Post: Store post information including caption, post_type_id, user_id, etc.
-- Post_media: Store media files related to posts with fields like media_file, position, post_id, etc.
-- Post_media_user_tag: Store user tags on media files with x_coordinate, y_coordinate, post_media_id, user_id, etc.
-- Saved_post: Manage saved posts by users with post_id, user_id, created_date, etc.
-- Comment: Store comments on posts with comment text, like_count, post_id, user_id, etc.
-- Reaction: Manage user reactions (e.g., likes) on posts or comments with user_id, post_id, etc.
+![alt text](db_diagram.png)
 
-#
+```
+-- users table
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL CHECK (email ~* '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'),
+    password VARCHAR(100) NOT NULL,
+    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    last_login_date TIMESTAMP,
+    CONSTRAINT password_strength CHECK (length(password) >= 8) -- password strength constraint
+);
 
-### Relationships Between Tables
+-- user_details table
+CREATE TABLE user_details (
+    id SERIAL PRIMARY KEY,
+    first_name VARCHAR(50) not null,
+    last_name VARCHAR(50) not null,
+    phone_number VARCHAR(20),
+    profile_picture VARCHAR(255), -- URL or path to the profile picture.
+    bio TEXT,
+    website VARCHAR(255), -- User's website URL (optional).
+    gender ENUM('Male', 'Female'),
+    birth_date DATE,
+    account_privacy BOOLEAN DEFAULT TRUE, -- True for public, False for private
+    user_id INTEGER UNIQUE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
 
-1. **Users to User_details:**
+-- follows table (Can be seperated)
+CREATE TABLE follows (
+    id SERIAL PRIMARY KEY,
+    following_user_id INTEGER NOT NULL,
+    followed_user_id INTEGER NOT NULL,
+	  status ENUM('Pending', 'Approved', 'Rejected'),
+    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (following_user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (followed_user_id) REFERENCES users(id) ON DELETE CASCADE
+);
 
-   - Each user has only one set of user details (first name, last name, etc.), creating a one-to-one relationship
+-- messages table
+CREATE TABLE messages (
+    id SERIAL PRIMARY KEY,
+    content TEXT,
+    seen BOOLEAN DEFAULT FALSE, -- Flag indicating if the message has been seen by the recipient.
+    sender_id INTEGER NOT NULL,
+    receiver_id INTEGER NOT NULL,
+    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (receiver_id) REFERENCES users(id) ON DELETE CASCADE
+);
 
-2. **Users to Followers/Following (Follows Table):**
+-- post_types table
+CREATE TABLE post_types (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50) UNIQUE -- 'story', 'profile', etc.
+);
 
-   - Many-to-many relationship where a user can follow multiple users and be followed by multiple users.
+-- posts table
+CREATE TABLE posts (
+    id SERIAL PRIMARY KEY,
+    caption TEXT,
+    post_type_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
+    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (post_type_id) REFERENCES post_type(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
 
-3. **Users to Messages (Sender and Receiver):**
+-- post_medias table
+CREATE TABLE post_medias (
+    id SERIAL PRIMARY KEY,
+    media_file VARCHAR(255),
+    position INTEGER, -- Order in which the media appears in the post
+    longitude FLOAT,
+    latitude FLOAT,
+    post_id INTEGER NOT NULL,
+    FOREIGN KEY (post_id) REFERENCES post(id) ON DELETE CASCADE
+);
 
-   - One-to-many relationship where a user can send multiple messages, but each message has one sender and one receiver.
+-- post_media_user_tags table
+CREATE TABLE post_media_user_tags (
+    id SERIAL PRIMARY KEY,
+    x_coordinate INTEGER,
+    y_coordinate INTEGER,
+    post_media_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
+    FOREIGN KEY (post_media_id) REFERENCES post_media(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
 
-4. **Users to Posts:**
+-- saved_posts table
+CREATE TABLE saved_posts (
+    id SERIAL PRIMARY KEY,
+    post_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
+    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (post_id) REFERENCES post(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
 
-   - One-to-many relationship where a user can create multiple posts, but each post has one user as the creator.
+-- comments table
+CREATE TABLE comments (
+    id SERIAL PRIMARY KEY,
+    comment TEXT,
+    like_count INTEGER DEFAULT 0,
+    post_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
+    comment_replied_to_id INT,
+    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (post_id) REFERENCES post(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (comment_replied_to_id) REFERENCES Comment(id) ON DELETE CASCADE
+);
 
-5. **Users to Saved_posts:**
-
-   - Many-to-many relationship where a user can save multiple posts, and a post can be saved by multiple users.
-
-6. **Posts to Post Media:**
-
-   - One-to-many relationship where a post can have multiple media files associated with it.
-
-7. **Posts to Tags (Post_Media_User_Tag Table):**
-
-   - Explanation: Many-to-many relationshipm, where many users can be tagged in multiple posts, and one post can have multiple users tagged in it.
-   - Intermediate Table: `post_media_user_tag`, linking `user_id` and `post_media_id` between the `users` and `post_media` tables.
-
-8. **Users to Comments:**
-
-   - One-to-many relationship where a user can comment on multiple posts, but each comment has one user as the author.
-
-9. **Posts to Comments:**
-
-   - One-to-many relationship where a post can have multiple comments
-
-10. **Posts to Saved Posts:**
-
-- Explanation: Each post can be saved by multiple users, and one user can save multiple posts, creating a many-to-many relationship. creating a one-to-one relationship.
-
-11. **Users to Reactions (Likes):**
-
-- One-to-many relationship where a user can give reactions (likes) to multiple posts or comments, but each reaction is associated with only one user.
-
-12. **Posts/Comments to Reactions:**
-
-- Explanation: One-to-many relationship where a post or a comment can receive multiple reactions (likes) from users, but each reaction is associated with only one post or comment.
+-- reactions table
+CREATE TABLE reactions (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL,
+    target_id INTEGER NOT NULL,
+    reaction_type ENUM('post', 'comment'),
+    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    CONSTRAINT valid_reaction_target CHECK (reaction_type = 'post' AND target_id IN (SELECT id FROM posts)
+                                              OR reaction_type = 'comment' AND target_id IN (SELECT id FROM comments))
+);
+```
