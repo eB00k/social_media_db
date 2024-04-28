@@ -48,13 +48,19 @@ Stores comments on posts with comment text, like_count, post_id, user_id, etc.
 
 Manages the number of likes that a post or comment has.
 
-### 12. likes
+### 13. likes_entity
 
-Manages user reactions (likes) on posts or comments.
+Parent table for likes with common fields like user_id, entity_id, and created_date.
 
-#
+### 14. post_likes
 
-### Relationships Between Tables
+Stores likes on posts, inherits from likes_entity with additional constraints.
+
+### 15. comment_likes
+
+Stores likes on comments, inherits from likes_entity with additional constraints.
+
+## Relationships Between Tables
 
 1. **Users to User_details:**
 
@@ -92,14 +98,22 @@ Manages user reactions (likes) on posts or comments.
 
    - Many-to-many relationship where each post can be saved by multiple users, and one user can save multiple posts, creating a many-to-many relationship.
 
-10. **Posts/Comments to Likes**:
-
-    - One-to-many relationship where a post or a comment can have multiple likes.
-
-11. **Posts/Comments to Content Activity**:
+10. **Posts/Comments to Content Activity**:
 
     - One-to-one relationship where a post or a comment is associated with its like count.
 
+11. **Posts/Comments to Likes**:
+
+    - One-to-many relationship where a post or a comment can have multiple likes.
+
 12. **Users to Reactions (Likes):**
+
+    - One-to-many relationship where a user can give reactions (likes) to multiple posts or comments, but each reaction is associated with only one user.
+
+13. **Likes to Likes_Entity**:
+
+    - One-to-many relationship where a like can be associated with one entity (post or comment).
+
+14. **Users to Reactions (Likes):**
 
     - One-to-many relationship where a user can give reactions (likes) to multiple posts or comments, but each reaction is associated with only one user.
