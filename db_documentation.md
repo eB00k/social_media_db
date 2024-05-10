@@ -2,9 +2,34 @@
 
 This database schema is designed to support a social media platform resembling Instagram. It includes tables for users, user details, follow relationships, messages, posts, comments, reactions, saved posts, and likes.
 
+Link to db diagram:
 https://drawsql.app/teams/dias-3/diagrams/social-media
 
 ![alt text](db_diagram.png)
+
+### Connecting to Our PostgreSQL Database
+
+- Database endpoint: `social-media-db.c7oegqky2sza.eu-north-1.rds.amazonaws.com`
+- Port: `5432`
+- Username: `postgres`
+- Password: `Eb00ktash`
+
+#### Connection Instructions
+
+1. **Using a PostgreSQL Client:**
+
+   - Download and install a PostgreSQL client such as pgAdmin, DBeaver, DataGrip or psql.
+   - Open the client and create a new connection.
+   - Enter the provided endpoint, port, username, and password when prompted.
+   - Connect to the database.
+
+2. **Using Command Line (psql):**
+   - Open a terminal or command prompt.
+   - Use the following command to connect:
+     ```
+     psql -h social-media-db.c7oegqky2sza.eu-north-1.rds.amazonaws.com -p 5432 -U postgres -W
+     ```
+   - Enter the password when prompted.
 
 ## Tables Description
 
