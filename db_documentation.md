@@ -2,6 +2,10 @@
 
 This database schema is designed to support a social media platform resembling Instagram. It includes tables for users, user details, follow relationships, messages, posts, comments, reactions, saved posts, and likes.
 
+https://drawsql.app/teams/dias-3/diagrams/social-media
+
+![alt text](db_diagram.png)
+
 ## Tables Description
 
 ### 1. users
@@ -94,26 +98,25 @@ Stores likes on comments, inherits from likes_entity with additional constraints
 
    - One-to-many relationship where a user can comment on multiple posts, but each comment has one user as the author.
 
-9. **Posts to Saved Posts:**
+9. **Posts to Saved Posts (indirectly):**
 
-   - Many-to-many relationship where each post can be saved by multiple users, and one user can save multiple posts, creating a many-to-many relationship.
+   - Many-to-one. Each post can have multiple instances of being saved by different users, but each instance of saved post belongs to only one post. This relationship indirectly contributes to the many-to-many relationship between users and posts facilitated by the saved_posts junction table.
 
-10. **Posts/Comments to Content Activity**:
+10. **Posts to Comments**
+
+    - One-to-many relationship where a post can have multiple comments, but each comment belongs to only one post.
+
+11. **Posts/Comments to Content Activity**:
 
     - One-to-one relationship where a post or a comment is associated with its like count.
 
-11. **Posts/Comments to Likes**:
+12. **Posts to Post_likes:**
 
-    - One-to-many relationship where a post or a comment can have multiple likes.
+    - One-to-many relationship where each post can have multiple likes, but each like belongs to only one post.
 
-12. **Users to Reactions (Likes):**
+13. **Comments to Comment_likes:**
 
-    - One-to-many relationship where a user can give reactions (likes) to multiple posts or comments, but each reaction is associated with only one user.
+    - One-to-many relationship where each comment can have multiple likes, but each like belongs to only one comment.
 
-13. **Likes to Likes_Entity**:
-
-    - One-to-many relationship where a like can be associated with one entity (post or comment).
-
-14. **Users to Reactions (Likes):**
-
-    - One-to-many relationship where a user can give reactions (likes) to multiple posts or comments, but each reaction is associated with only one user.
+14. **Likes_Entity to Comment_likes/Post_likes:**
+    - One-to-one relationship where each record in `comment_likes` or `post_likes` corresponds directly to a record in `likes_entity`.
