@@ -18,7 +18,7 @@ CREATE TABLE users (
     email VARCHAR(255) NOT NULL, -- Unique email address for login
     password VARCHAR(100) NOT NULL, -- Hashed password for authentication
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Timestamp of user registration
-    last_login_date TIMESTAMP, -- Timestamp of user's last login
+    last_login_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Timestamp of user's last login
     UNIQUE(username, email),
     CONSTRAINT password_strength CHECK (length(password) >= 8) -- Enforces password strength
 );
@@ -44,7 +44,7 @@ CREATE TABLE follows (
     id SERIAL PRIMARY KEY,
     following_user_id INTEGER NOT NULL, -- ID of the user who is following
     followed_user_id INTEGER NOT NULL, -- ID of the user who is being followed
-    status follow_status_enum, -- Status of the follow relationship (Pending/Approved/Rejected)
+    status follow_status_enum DEFAULT 'Pending', -- Status of the follow relationship (Pending/Approved/Rejected)
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (following_user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (followed_user_id) REFERENCES users(id) ON DELETE CASCADE
@@ -358,3 +358,4 @@ SELECT * FROM content_activity;
 SELECT * FROM likes_entity;
 SELECT * FROM post_likes;
 SELECT * FROM comment_likes;
+
