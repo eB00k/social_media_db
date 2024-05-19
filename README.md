@@ -5,7 +5,7 @@ This database schema is designed to support a social media platform resembling I
 Link to db diagram:
 https://drawsql.app/teams/dias-3/diagrams/social-media
 
-![alt text](db_diagram.png)
+![alt text](diagram.png)
 
 ### Connecting to Our PostgreSQL Database
 
