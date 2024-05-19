@@ -1,6 +1,6 @@
 # Social Media Platform Database
 
-This database schema is designed to support a social media platform resembling Instagram. It includes tables for users, user details, follow relationships, messages, posts, comments, reactions, saved posts, and likes.
+This database schema is designed to support a social media platform resembling Instagram. It includes tables for users, user details, follow relationships, messages, posts, comments, saved posts, and likes.
 
 Link to db diagram:
 https://drawsql.app/teams/dias-3/diagrams/social-media
@@ -13,6 +13,12 @@ https://drawsql.app/teams/dias-3/diagrams/social-media
 - Port: `5432`
 - Username: `postgres`
 - Password: `Eb00ktash`
+
+### Steps for Database Setup:
+
+1. I have created types, tables, and trigger functions in `create_tables.sql`.
+2. I have inserted data into each table to simulate real-life social media interactions using `inserting_real_data.sql`.
+3. I have written some useful testing queries to assess the system's functionality. (`testing_queries.sql`)
 
 #### Connection Instructions
 
@@ -77,17 +83,9 @@ Stores comments on posts with comment text, like_count, post_id, user_id, etc.
 
 Manages the number of likes that a post or comment has.
 
-### 13. likes_entity
+### 12. likes
 
-Parent table for likes with common fields like user_id, entity_id, and created_date.
-
-### 14. post_likes
-
-Stores likes on posts, inherits from likes_entity with additional constraints.
-
-### 15. comment_likes
-
-Stores likes on comments, inherits from likes_entity with additional constraints.
+Stores likes on posts and comments with fields like user_id, entity_id, entity_type, and created_date.
 
 ## Relationships Between Tables
 
@@ -131,17 +129,10 @@ Stores likes on comments, inherits from likes_entity with additional constraints
 
     - One-to-many relationship where a post can have multiple comments, but each comment belongs to only one post.
 
-11. **Posts/Comments to Content Activity**:
+11. **Posts/Comments to Content Activity:**
 
     - One-to-one relationship where a post or a comment is associated with its like count.
 
-12. **Posts to Post_likes:**
+12. **Posts/Comments to Likes:**
 
-    - One-to-many relationship where each post can have multiple likes, but each like belongs to only one post.
-
-13. **Comments to Comment_likes:**
-
-    - One-to-many relationship where each comment can have multiple likes, but each like belongs to only one comment.
-
-14. **Likes_Entity to Comment_likes/Post_likes:**
-    - One-to-one relationship where each record in `comment_likes` or `post_likes` corresponds directly to a record in `likes_entity`.
+    - One-to-many relationship where each post or comment can have multiple likes, but each like belongs to only one post or comment.

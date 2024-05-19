@@ -109,58 +109,6 @@ FROM (
         generate_series(1, 500) as id
 ) AS subquery;
 
--- Trigger function to increment content_activity counter
-CREATE OR REPLACE FUNCTION increment_content_activity_counter()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF TG_TABLE_NAME = 'post_likes' THEN
-        -- Increment the counter for the post in the content_activity table
-        UPDATE content_activity SET count = count + 1 WHERE parent_id = NEW.entity_id;
-    ELSIF TG_TABLE_NAME = 'comment_likes' THEN
-        -- Increment the counter for the comment in the content_activity table
-        UPDATE content_activity SET count = count + 1 WHERE parent_id = NEW.entity_id;
-    END IF;
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER update_content_activity_counter
-AFTER INSERT ON post_likes
-FOR EACH ROW
-EXECUTE FUNCTION increment_content_activity_counter();
-
-CREATE TRIGGER update_content_activity_counter_comment
-AFTER INSERT ON comment_likes
-FOR EACH ROW
-EXECUTE FUNCTION increment_content_activity_counter();
-
--- Trigger function to decrement content_activity counter
-CREATE OR REPLACE FUNCTION decrement_content_activity_counter()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF TG_TABLE_NAME = 'post_likes' THEN
-        -- Decrement the counter for the post in the content_activity table
-        UPDATE content_activity SET count = count - 1 WHERE parent_id = OLD.entity_id;
-    ELSIF TG_TABLE_NAME = 'comment_likes' THEN
-        -- Decrement the counter for the comment in the content_activity table
-        UPDATE content_activity SET count = count - 1 WHERE parent_id = OLD.entity_id;
-    END IF;
-    RETURN OLD;
-END;
-$$ LANGUAGE plpgsql;
-
--- Trigger to execute the decrement_content_activity_counter function after a like is deleted from post_likes
-CREATE TRIGGER update_content_activity_counter_delete_post
-AFTER DELETE ON post_likes
-FOR EACH ROW
-EXECUTE FUNCTION decrement_content_activity_counter();
-
--- Trigger to execute the decrement_content_activity_counter function after a like is deleted from comment_likes
-CREATE TRIGGER update_content_activity_counter_delete_comment
-AFTER DELETE ON comment_likes
-FOR EACH ROW
-EXECUTE FUNCTION decrement_content_activity_counter();
-
 -- Generate sample data for the content_activity table
 INSERT INTO content_activity (parent_id, count)
 SELECT id, 0
@@ -168,23 +116,3 @@ FROM posts
 UNION
 SELECT id, 0
 FROM comments;
-
--- Generate sample data for the post_likes table
-INSERT INTO post_likes (user_id, entity_id, created_date)
-SELECT
-    floor(random() * 100) + 1, -- Random user_id
-    id, -- Random post id
-    CURRENT_TIMESTAMP - INTERVAL '1 day' * (random() * 365)::integer
-FROM posts
-ORDER BY random()
-LIMIT 1000; -- Limit the number of likes generated for posts
-
--- Generate sample data for the comment_likes table
-INSERT INTO comment_likes (user_id, entity_id, created_date)
-SELECT
-    floor(random() * 100) + 1, -- Random user_id
-    id, -- Random comment id
-    CURRENT_TIMESTAMP - INTERVAL '1 day' * (random() * 365)::integer
-FROM comments
-ORDER BY random()
-LIMIT 1000; -- Limit the number of likes generated for comments;

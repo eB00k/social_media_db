@@ -267,175 +267,123 @@ from post_media_user_tags;
 -- Insert sample messages into the messages table
 TRUNCATE TABLE messages RESTART IDENTITY CASCADE;
 INSERT INTO messages (content, seen, sender_id, receiver_id, created_date)
-VALUES
-    ('Hey Jane, how are you?', FALSE, 1, 2, '2024-01-10 10:00:00'),
-    ('Hi John, I am good. How about you?', FALSE, 2, 1, '2024-01-10 10:05:00'),
-    ('Alice, did you see the latest update?', TRUE, 3, 4, '2024-01-11 12:00:00'),
-    ('Yes, Bob, it looks great!', TRUE, 4, 3, '2024-01-11 12:10:00'),
-    ('Charlie, are we still on for the meeting tomorrow?', FALSE, 5, 6, '2024-01-12 14:00:00'),
-    ('David, yes we are! Looking forward to it.', FALSE, 6, 5, '2024-01-12 14:15:00'),
-    ('Emma, can you review my latest code?', FALSE, 7, 8, '2024-01-13 16:00:00'),
-    ('Sure, Frank. I will take a look this evening.', FALSE, 8, 7, '2024-01-13 16:30:00'),
-    ('Grace, lets catch up over coffee.', TRUE, 9, 10, '2024-01-14 18:00:00'),
-    ('Henry, sounds good! When are you free?', TRUE, 10, 9, '2024-01-14 18:20:00'),
-    ('Irene, can you send me the project files?', FALSE, 11, 12, '2024-01-15 20:00:00'),
-    ('Jack, sure thing. Sending them now.', TRUE, 12, 11, '2024-01-15 20:10:00'),
-    ('Karen, are you joining the team dinner?', FALSE, 13, 14, '2024-01-16 22:00:00'),
-    ('Leo, yes! I will be there.', FALSE, 14, 13, '2024-01-16 22:30:00'),
-    ('Mia, do you have the latest report?', FALSE, 15, 16, '2024-01-17 08:00:00'),
-    ('Noah, I will send it to you by noon.', FALSE, 16, 15, '2024-01-17 08:20:00'),
-    ('Olivia, can we discuss the new project?', TRUE, 17, 18, '2024-01-18 09:00:00'),
-    ('Paul, lets meet at 2 PM today.', TRUE, 18, 17, '2024-01-18 09:30:00'),
-    ('Quinn, are the designs ready?', FALSE, 19, 20, '2024-01-19 10:00:00'),
-    ('Rachel, yes, I will share them shortly.', FALSE, 20, 19, '2024-01-19 10:30:00');
+VALUES ('Hey Jane, how are you?', FALSE, 1, 2, '2024-01-10 10:00:00'),
+       ('Hi John, I am good. How about you?', FALSE, 2, 1, '2024-01-10 10:05:00'),
+       ('Alice, did you see the latest update?', TRUE, 3, 4, '2024-01-11 12:00:00'),
+       ('Yes, Bob, it looks great!', TRUE, 4, 3, '2024-01-11 12:10:00'),
+       ('Charlie, are we still on for the meeting tomorrow?', FALSE, 5, 6, '2024-01-12 14:00:00'),
+       ('David, yes we are! Looking forward to it.', FALSE, 6, 5, '2024-01-12 14:15:00'),
+       ('Emma, can you review my latest code?', FALSE, 7, 8, '2024-01-13 16:00:00'),
+       ('Sure, Frank. I will take a look this evening.', FALSE, 8, 7, '2024-01-13 16:30:00'),
+       ('Grace, lets catch up over coffee.', TRUE, 9, 10, '2024-01-14 18:00:00'),
+       ('Henry, sounds good! When are you free?', TRUE, 10, 9, '2024-01-14 18:20:00'),
+       ('Irene, can you send me the project files?', FALSE, 11, 12, '2024-01-15 20:00:00'),
+       ('Jack, sure thing. Sending them now.', TRUE, 12, 11, '2024-01-15 20:10:00'),
+       ('Karen, are you joining the team dinner?', FALSE, 13, 14, '2024-01-16 22:00:00'),
+       ('Leo, yes! I will be there.', FALSE, 14, 13, '2024-01-16 22:30:00'),
+       ('Mia, do you have the latest report?', FALSE, 15, 16, '2024-01-17 08:00:00'),
+       ('Noah, I will send it to you by noon.', FALSE, 16, 15, '2024-01-17 08:20:00'),
+       ('Olivia, can we discuss the new project?', TRUE, 17, 18, '2024-01-18 09:00:00'),
+       ('Paul, lets meet at 2 PM today.', TRUE, 18, 17, '2024-01-18 09:30:00'),
+       ('Quinn, are the designs ready?', FALSE, 19, 20, '2024-01-19 10:00:00'),
+       ('Rachel, yes, I will share them shortly.', FALSE, 20, 19, '2024-01-19 10:30:00');
 
-select * from messages;
-
+select *
+from messages;
 
 -- Inserting data into saved_posts table:
 TRUNCATE TABLE saved_posts RESTART IDENTITY CASCADE;
 INSERT INTO saved_posts (user_id, post_id, created_date)
-VALUES
-(1, 3, '2023-01-12 10:30:00'),
-(1, 5, '2023-01-13 14:45:00'),
-(2, 1, '2023-01-14 09:00:00'),
-(2, 4, '2023-01-14 11:15:00'),
-(3, 2, '2023-01-15 16:00:00'),
-(3, 7, '2023-01-16 08:30:00'),
-(4, 1, '2023-01-17 10:00:00'),
-(4, 6, '2023-01-18 12:45:00'),
-(5, 8, '2023-01-19 09:30:00'),
-(5, 9, '2023-01-19 15:00:00'),
-(6, 3, '2023-01-20 10:30:00'),
-(6, 4, '2023-01-21 11:30:00'),
-(7, 2, '2023-01-22 09:45:00'),
-(7, 5, '2023-01-23 14:15:00'),
-(8, 6, '2023-01-24 16:30:00'),
-(8, 7, '2023-01-25 12:00:00'),
-(9, 1, '2023-01-26 10:00:00'),
-(9, 8, '2023-01-27 15:30:00'),
-(10, 9, '2023-01-28 09:00:00'),
-(10, 3, '2023-01-29 11:00:00'),
-(11, 5, '2023-01-30 13:30:00'),
-(11, 7, '2023-01-31 14:45:00'),
-(12, 2, '2023-02-01 10:15:00'),
-(12, 6, '2023-02-02 12:30:00'),
-(13, 4, '2023-02-03 11:45:00'),
-(13, 8, '2023-02-04 14:00:00'),
-(14, 1, '2023-02-05 09:30:00'),
-(14, 3, '2023-02-06 10:45:00'),
-(15, 2, '2023-02-07 11:30:00'),
-(15, 5, '2023-02-08 12:15:00'),
-(16, 6, '2023-02-09 13:00:00'),
-(16, 7, '2023-02-10 14:30:00'),
-(17, 9, '2023-02-11 15:45:00'),
-(17, 4, '2023-02-12 16:00:00'),
-(18, 8, '2023-02-13 09:00:00'),
-(18, 3, '2023-02-14 10:30:00'),
-(19, 1, '2023-02-15 11:00:00'),
-(19, 5, '2023-02-16 12:45:00'),
-(20, 7, '2023-02-17 14:00:00'),
-(20, 2, '2023-02-18 15:30:00');
+VALUES (1, 3, '2023-01-12 10:30:00'),
+       (1, 5, '2023-01-13 14:45:00'),
+       (2, 1, '2023-01-14 09:00:00'),
+       (2, 4, '2023-01-14 11:15:00'),
+       (3, 2, '2023-01-15 16:00:00'),
+       (3, 7, '2023-01-16 08:30:00'),
+       (4, 1, '2023-01-17 10:00:00'),
+       (4, 6, '2023-01-18 12:45:00'),
+       (5, 8, '2023-01-19 09:30:00'),
+       (5, 9, '2023-01-19 15:00:00'),
+       (6, 3, '2023-01-20 10:30:00'),
+       (6, 4, '2023-01-21 11:30:00'),
+       (7, 2, '2023-01-22 09:45:00'),
+       (7, 5, '2023-01-23 14:15:00'),
+       (8, 6, '2023-01-24 16:30:00'),
+       (8, 7, '2023-01-25 12:00:00'),
+       (9, 1, '2023-01-26 10:00:00'),
+       (9, 8, '2023-01-27 15:30:00'),
+       (10, 9, '2023-01-28 09:00:00'),
+       (10, 3, '2023-01-29 11:00:00'),
+       (11, 5, '2023-01-30 13:30:00'),
+       (11, 7, '2023-01-31 14:45:00'),
+       (12, 2, '2023-02-01 10:15:00'),
+       (12, 6, '2023-02-02 12:30:00'),
+       (13, 4, '2023-02-03 11:45:00'),
+       (13, 8, '2023-02-04 14:00:00'),
+       (14, 1, '2023-02-05 09:30:00'),
+       (14, 3, '2023-02-06 10:45:00'),
+       (15, 2, '2023-02-07 11:30:00'),
+       (15, 5, '2023-02-08 12:15:00'),
+       (16, 6, '2023-02-09 13:00:00'),
+       (16, 7, '2023-02-10 14:30:00'),
+       (17, 9, '2023-02-11 15:45:00'),
+       (17, 4, '2023-02-12 16:00:00'),
+       (18, 8, '2023-02-13 09:00:00'),
+       (18, 3, '2023-02-14 10:30:00'),
+       (19, 1, '2023-02-15 11:00:00'),
+       (19, 5, '2023-02-16 12:45:00'),
+       (20, 7, '2023-02-17 14:00:00'),
+       (20, 2, '2023-02-18 15:30:00');
 
-select * from saved_posts;
+select *
+from saved_posts;
 
 -- Inserting data into comments table:
 TRUNCATE TABLE comments RESTART IDENTITY CASCADE;
 INSERT INTO comments (comment, post_id, user_id, comment_replied_to_id)
 VALUES
 -- Comments on John's profile post
-('Nice profile picture, John!', 1, 2, NULL),  -- Jane commenting on John's post
-('Thank you, Jane!', 1, 1, 1),  -- John replying to Jane's comment
+('Nice profile picture, John!', 1, 2, NULL),       -- Jane commenting on John's post
+('Thank you, Jane!', 1, 1, 1),                     -- John replying to Jane's comment
 ('Great to see your updates, John.', 1, 3, NULL),  -- Alice commenting on John's post
-('Thanks, Alice!', 1, 1, 3),  -- John replying to Alice's comment
-('Looking good, John!', 1, 4, NULL),  -- Michael commenting on John's post
-('Appreciate it, Michael.', 1, 1, 5),  -- John replying to Michael's comment
+('Thanks, Alice!', 1, 1, 3),                       -- John replying to Alice's comment
+('Looking good, John!', 1, 4, NULL),               -- Michael commenting on John's post
+('Appreciate it, Michael.', 1, 1, 5),              -- John replying to Michael's comment
 
 -- Comments on Jane's profile post
-('Amazing post, Jane!', 2, 1, NULL),  -- John commenting on Jane's post
-('Thanks, John!', 2, 2, 7),  -- Jane replying to John's comment
-('Lovely profile, Jane!', 2, 3, NULL),  -- Alice commenting on Jane's post
-('Thank you, Alice!', 2, 2, 9),  -- Jane replying to Alice's comment
-('So happy to see your posts, Jane!', 2, 5, NULL),  -- Linda commenting on Jane's post
-('Glad to hear that, Linda.', 2, 2, 11),  -- Jane replying to Linda's comment
+('Amazing post, Jane!', 2, 1, NULL),               -- John commenting on Jane's post
+('Thanks, John!', 2, 2, 7),                        -- Jane replying to John's comment
+('Lovely profile, Jane!', 2, 3, NULL),             -- Alice commenting on Jane's post
+('Thank you, Alice!', 2, 2, 9),                    -- Jane replying to Alice's comment
+('So happy to see your posts, Jane!', 2, 5, NULL), -- Linda commenting on Jane's post
+('Glad to hear that, Linda.', 2, 2, 11),           -- Jane replying to Linda's comment
 
 -- Comments on Alice's profile post
-('Great content, Alice!', 3, 1, NULL),  -- John commenting on Alice's post
-('Thank you, John!', 3, 3, 13),  -- Alice replying to John's comment
-('Nice updates, Alice.', 3, 2, NULL),  -- Jane commenting on Alice's post
-('Thanks, Jane!', 3, 3, 15),  -- Alice replying to Jane's comment
+('Great content, Alice!', 3, 1, NULL),             -- John commenting on Alice's post
+('Thank you, John!', 3, 3, 13),                    -- Alice replying to John's comment
+('Nice updates, Alice.', 3, 2, NULL),              -- Jane commenting on Alice's post
+('Thanks, Jane!', 3, 3, 15),                       -- Alice replying to Jane's comment
 ('Your profile looks great, Alice!', 3, 4, NULL),  -- Michael commenting on Alice's post
-('Appreciate it, Michael.', 3, 3, 17),  -- Alice replying to Michael's comment
+('Appreciate it, Michael.', 3, 3, 17),             -- Alice replying to Michael's comment
 
 -- Comments on Michael's profile post
-('Cool profile, Michael!', 4, 1, NULL),  -- John commenting on Michael's post
-('Thanks, John!', 4, 4, 19),  -- Michael replying to John's comment
-('Nice posts, Michael.', 4, 2, NULL),  -- Jane commenting on Michael's post
-('Thank you, Jane!', 4, 4, 21),  -- Michael replying to Jane's comment
-('Great profile updates, Michael!', 4, 3, NULL),  -- Alice commenting on Michael's post
-('Thanks, Alice!', 4, 4, 23),  -- Michael replying to Alice's comment
+('Cool profile, Michael!', 4, 1, NULL),            -- John commenting on Michael's post
+('Thanks, John!', 4, 4, 19),                       -- Michael replying to John's comment
+('Nice posts, Michael.', 4, 2, NULL),              -- Jane commenting on Michael's post
+('Thank you, Jane!', 4, 4, 21),                    -- Michael replying to Jane's comment
+('Great profile updates, Michael!', 4, 3, NULL),   -- Alice commenting on Michael's post
+('Thanks, Alice!', 4, 4, 23),                      -- Michael replying to Alice's comment
 
 -- Comments on Linda's profile post
-('Nice profile, Linda!', 5, 1, NULL),  -- John commenting on Linda's post
-('Thank you, John!', 5, 5, 25),  -- Linda replying to John's comment
-('Lovely posts, Linda.', 5, 2, NULL),  -- Jane commenting on Linda's post
-('Thanks, Jane!', 5, 5, 27),  -- Linda replying to Jane's comment
-('Your updates are great, Linda!', 5, 3, NULL),  -- Alice commenting on Linda's post
-('Appreciate it, Alice.', 5, 5, 29);  -- Linda replying to Alice's comment
+('Nice profile, Linda!', 5, 1, NULL),              -- John commenting on Linda's post
+('Thank you, John!', 5, 5, 25),                    -- Linda replying to John's comment
+('Lovely posts, Linda.', 5, 2, NULL),              -- Jane commenting on Linda's post
+('Thanks, Jane!', 5, 5, 27),                       -- Linda replying to Jane's comment
+('Your updates are great, Linda!', 5, 3, NULL),    -- Alice commenting on Linda's post
+('Appreciate it, Alice.', 5, 5, 29); -- Linda replying to Alice's comment
 
-select * from comments;
-
--- Trigger function to increment content_activity counter
-CREATE OR REPLACE FUNCTION increment_content_activity_counter()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF TG_TABLE_NAME = 'post_likes' THEN
-        -- Increment the counter for the post in the content_activity table
-        UPDATE content_activity SET count = count + 1 WHERE parent_id = NEW.entity_id;
-    ELSIF TG_TABLE_NAME = 'comment_likes' THEN
-        -- Increment the counter for the comment in the content_activity table
-        UPDATE content_activity SET count = count + 1 WHERE parent_id = NEW.entity_id;
-    END IF;
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER update_content_activity_counter
-AFTER INSERT ON post_likes
-FOR EACH ROW
-EXECUTE FUNCTION increment_content_activity_counter();
-
-CREATE TRIGGER update_content_activity_counter_comment
-AFTER INSERT ON comment_likes
-FOR EACH ROW
-EXECUTE FUNCTION increment_content_activity_counter();
-
--- Trigger function to decrement content_activity counter
-CREATE OR REPLACE FUNCTION decrement_content_activity_counter()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF TG_TABLE_NAME = 'post_likes' THEN
-        -- Decrement the counter for the post in the content_activity table
-        UPDATE content_activity SET count = count - 1 WHERE parent_id = OLD.entity_id;
-    ELSIF TG_TABLE_NAME = 'comment_likes' THEN
-        -- Decrement the counter for the comment in the content_activity table
-        UPDATE content_activity SET count = count - 1 WHERE parent_id = OLD.entity_id;
-    END IF;
-    RETURN OLD;
-END;
-$$ LANGUAGE plpgsql;
-
--- Trigger to execute the decrement_content_activity_counter function after a like is deleted from post_likes
-CREATE TRIGGER update_content_activity_counter_delete_post
-AFTER DELETE ON post_likes
-FOR EACH ROW
-EXECUTE FUNCTION decrement_content_activity_counter();
-
--- Trigger to execute the decrement_content_activity_counter function after a like is deleted from comment_likes
-CREATE TRIGGER update_content_activity_counter_delete_comment
-AFTER DELETE ON comment_likes
-FOR EACH ROW
-EXECUTE FUNCTION decrement_content_activity_counter();
+select *
+from comments;
 
 -- Generate sample data for the content_activity table
 TRUNCATE TABLE content_activity RESTART IDENTITY CASCADE;
@@ -446,90 +394,47 @@ UNION
 SELECT id, 0
 FROM comments;
 
-select * from content_activity;
+select *
+from content_activity;
 
--- Inserting more data into post_likes table:
-TRUNCATE TABLE likes_entity RESTART IDENTITY CASCADE;
-INSERT INTO post_likes (user_id, entity_id, created_date)
-VALUES
-    (4, 3, '2024-05-17 08:30:00'),  -- User 4 likes Post 3
-    (5, 4, '2024-05-17 08:35:00'),  -- User 5 likes Post 4
-    (6, 5, '2024-05-17 08:40:00'),  -- User 6 likes Post 5
-    (7, 6, '2024-05-17 08:45:00'),  -- User 7 likes Post 6
-    (8, 7, '2024-05-17 08:50:00'),  -- User 8 likes Post 7
-    (9, 8, '2024-05-17 08:55:00'),  -- User 9 likes Post 8
-    (10, 9, '2024-05-17 09:00:00'),  -- User 10 likes Post 9
-    (11, 10, '2024-05-17 09:05:00'),  -- User 11 likes Post 10
-    (12, 11, '2024-05-17 09:10:00'),  -- User 12 likes Post 11
-    (13, 12, '2024-05-17 09:15:00'),  -- User 13 likes Post 12
-    (14, 13, '2024-05-17 09:20:00'),  -- User 14 likes Post 13
-    (15, 14, '2024-05-17 09:25:00'),  -- User 15 likes Post 14
-    (16, 15, '2024-05-17 09:30:00'),  -- User 16 likes Post 15
-    (17, 16, '2024-05-17 09:35:00'),  -- User 17 likes Post 16
-    (18, 17, '2024-05-17 09:40:00'),  -- User 18 likes Post 17
-    (19, 18, '2024-05-17 09:45:00'),  -- User 19 likes Post 18
-    (20, 19, '2024-05-17 09:50:00'),  -- User 20 likes Post 19
-    (21, 20, '2024-05-17 09:55:00'),  -- User 21 likes Post 20
-    (22, 21, '2024-05-17 10:00:00'),  -- User 22 likes Post 21
-    (23, 22, '2024-05-17 10:05:00'),  -- User 23 likes Post 22
-    (24, 23, '2024-05-17 10:10:00'),  -- User 24 likes Post 23
-    (25, 24, '2024-05-17 10:15:00'),  -- User 25 likes Post 24
-    (26, 25, '2024-05-17 10:20:00'),  -- User 26 likes Post 25
-    (27, 26, '2024-05-17 10:25:00'),  -- User 27 likes Post 26
-    (28, 27, '2024-05-17 10:30:00'),  -- User 28 likes Post 27
-    (29, 28, '2024-05-17 10:35:00'),  -- User 29 likes Post 28
-    (30, 29, '2024-05-17 10:40:00');  -- User 30 likes Post 29
+-- Inserting more data into likes table:
+INSERT INTO likes (user_id, entity_id, entity_type)
+VALUES (2, 1, 'Comment'),  -- Jane likes John's profile picture comment
+       (1, 2, 'Comment'),  -- John likes Jane's thank you comment
+       (4, 1, 'Comment'),  -- Alice likes John's updates comment
+       (1, 3, 'Comment'),  -- John likes Alice's thank you comment
+       (5, 1, 'Comment'),  -- Michael likes John's profile comment
+       (1, 5, 'Comment'),  -- John likes Michael's thank you comment
+       (1, 7, 'Comment'),  -- John likes Jane's amazing post comment
+       (2, 9, 'Comment'),  -- Jane likes her own lovely profile comment
+       (2, 11, 'Comment'), -- Jane likes her own happy to see posts comment
+       (5, 13, 'Comment'), -- Michael likes Alice's great content comment
+       (3, 15, 'Comment'), -- Michael likes Alice's nice updates comment
+       (1, 17, 'Comment'), -- John likes Alice's profile looks great comment
+       (4, 19, 'Comment'), -- Michael likes his own cool profile comment
+       (2, 21, 'Comment'), -- Jane likes Michael's nice posts comment
+       (1, 23, 'Comment'), -- John likes Michael's great profile updates comment
+       (5, 25, 'Comment'), -- Michael likes Linda's nice profile comment
+       (1, 27, 'Comment'), -- John likes Linda's lovely posts comment
+       (2, 29, 'Comment'), -- Jane likes Linda's updates are great comment
+       (3, 1, 'Post'),     -- Michael likes John's first story
+       (1, 2, 'Post'),     -- John likes Jane's new profile picture post
+       (4, 1, 'Post'),     -- Alice likes John's latest adventure post
+       (2, 2, 'Post'),     -- Jane likes her own profile updated post
+       (1, 5, 'Post'),     -- John likes his own paradise post
+       (5, 7, 'Post'),     -- Michael likes Jane's sunset stories post
+       (1, 9, 'Post'),     -- John likes his own throwback story post
+       (2, 11, 'Post'),    -- Jane likes her own daily story update post
+       (4, 13, 'Post'),    -- Alice likes her own stories from travels post
+       (3, 15, 'Post'),    -- Michael likes Alice's weekend story post
+       (1, 17, 'Post'),    -- John likes his own behind the scenes story post
+       (2, 19, 'Post'),    -- Jane likes her own daily story post
+       (5, 21, 'Post'),    -- Michael likes Jane's quick story post
+       (1, 23, 'Post'),    -- John likes his own story time from the weekend post
+       (4, 25, 'Post'); -- Alice likes Linda's daily update story post
 
-select * from post_likes;
-
--- Inserting 40 likes into the comment_likes table with valid comment IDs
-TRUNCATE TABLE post_likes RESTART IDENTITY CASCADE;
-INSERT INTO comment_likes (user_id, entity_id, created_date)
-VALUES
-    (1, 1, '2024-05-17 10:00:00'),  -- User 1 likes Comment 1
-    (2, 2, '2024-05-17 10:05:00'),  -- User 2 likes Comment 2
-    (3, 3, '2024-05-17 10:10:00'),  -- User 3 likes Comment 3
-    (4, 4, '2024-05-17 10:15:00'),  -- User 4 likes Comment 4
-    (5, 5, '2024-05-17 10:20:00'),  -- User 5 likes Comment 5
-    (6, 6, '2024-05-17 10:25:00'),  -- User 6 likes Comment 6
-    (7, 7, '2024-05-17 10:30:00'),  -- User 7 likes Comment 7
-    (8, 8, '2024-05-17 10:35:00'),  -- User 8 likes Comment 8
-    (9, 9, '2024-05-17 10:40:00'),  -- User 9 likes Comment 9
-    (10, 10, '2024-05-17 10:45:00'),  -- User 10 likes Comment 10
-    (11, 11, '2024-05-17 10:50:00'),  -- User 11 likes Comment 11
-    (12, 12, '2024-05-17 10:55:00'),  -- User 12 likes Comment 12
-    (13, 13, '2024-05-17 11:00:00'),  -- User 13 likes Comment 13
-    (14, 14, '2024-05-17 11:05:00'),  -- User 14 likes Comment 14
-    (15, 15, '2024-05-17 11:10:00'),  -- User 15 likes Comment 15
-    (16, 16, '2024-05-17 11:15:00'),  -- User 16 likes Comment 16
-    (17, 17, '2024-05-17 11:20:00'),  -- User 17 likes Comment 17
-    (18, 18, '2024-05-17 11:25:00'),  -- User 18 likes Comment 18
-    (19, 19, '2024-05-17 11:30:00'),  -- User 19 likes Comment 19
-    (20, 20, '2024-05-17 11:35:00'),  -- User 20 likes Comment 20
-    (21, 21, '2024-05-17 11:40:00'),  -- User 21 likes Comment 21
-    (22, 22, '2024-05-17 11:45:00'),  -- User 22 likes Comment 22
-    (23, 23, '2024-05-17 11:50:00'),  -- User 23 likes Comment 23
-    (24, 24, '2024-05-17 11:55:00'),  -- User 24 likes Comment 24
-    (25, 25, '2024-05-17 12:00:00'),  -- User 25 likes Comment 25
-    (26, 26, '2024-05-17 12:05:00'),  -- User 26 likes Comment 26
-    (27, 27, '2024-05-17 12:10:00'),  -- User 27 likes Comment 27
-    (28, 28, '2024-05-17 12:15:00'),  -- User 28 likes Comment 28
-    (29, 29, '2024-05-17 12:20:00'),  -- User 29 likes Comment 29
-    (30, 30, '2024-05-17 12:25:00'),  -- User 30 likes Comment 30
-    (31, 30, '2024-05-17 12:30:00'),  -- User 31 likes Comment 30 again
-    (32, 29, '2024-05-17 12:35:00'),  -- User 32 likes Comment 29 again
-    (33, 28, '2024-05-17 12:40:00'),  -- User 33 likes Comment 28 again
-    (34, 27, '2024-05-17 12:45:00'),  -- User 34 likes Comment 27 again
-    (35, 26, '2024-05-17 12:50:00'),  -- User 35 likes Comment 26 again
-    (36, 25, '2024-05-17 12:55:00'),  -- User 36 likes Comment 25 again
-    (37, 24, '2024-05-17 13:00:00'),  -- User 37 likes Comment 24 again
-    (38, 23, '2024-05-17 13:05:00'),  -- User 38 likes Comment 23 again
-    (39, 22, '2024-05-17 13:10:00'),  -- User 39 likes Comment 22 again
-    (40, 21, '2024-05-17 13:15:00');  -- User 40 likes Comment 21 again
-
-select * from comment_likes;
-
-select * from content_activity;
+select *
+from likes;
 
 
 

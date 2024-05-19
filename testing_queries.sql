@@ -33,13 +33,8 @@ SELECT *
 FROM content_activity; -- DONE
 
 SELECT *
-FROM likes_entity; -- DONE
+FROM likes; -- DONE
 
-SELECT *
-FROM post_likes; -- DONE
-
-SELECT *
-FROM comment_likes; -- DONE
 
 /* SELECT QUERIES WITH users AND user_details */
 
@@ -297,5 +292,26 @@ FROM comments c
 JOIN posts p ON c.post_id = p.id
 JOIN users u ON p.user_id = u.id
 WHERE u.id = 1; -- Replace with the specific user_id
+
+-- Get all likes for a specific user:
+SELECT * FROM likes WHERE user_id = :user_id;
+
+-- Get all likes for a specific post or comment:
+SELECT * FROM likes WHERE entity_id = :entity_id;
+
+-- Get the total number of likes for a specific post or comment:
+SELECT COUNT(*) AS total_likes FROM likes WHERE entity_id = :entity_id;
+
+-- Get the total number of likes for each post:
+SELECT p.id AS post_id, p.caption, COALESCE(COUNT(l.id), 0) AS total_likes
+FROM posts p
+LEFT JOIN likes l ON p.id = l.entity_id AND l.entity_type = 'Post'
+GROUP BY p.id, p.caption;
+
+-- Get the total number of likes for each comment:
+SELECT c.id AS comment_id, c.comment, COALESCE(COUNT(l.id), 0) AS total_likes
+FROM comments c
+LEFT JOIN likes l ON c.id = l.entity_id AND l.entity_type = 'Comment'
+GROUP BY c.id, c.comment;
 
 
